@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" role="img" aria-label="TechWater logo">
+  <defs>
+    <linearGradient id="dropGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#34d1ff"/>
+      <stop offset="100%" stop-color="#0a72c4"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0a72c4"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Water drop with embedded circuit -->
+  <g transform="translate(8,8)">
+    <path d="M32 2 C32 2 6 30 6 46 a26 26 0 1 0 52 0 C58 30 32 2 32 2 Z"
+          fill="url(#dropGrad)"/>
+    <!-- Circuit lines inside the drop -->
+    <g stroke="#ffffff" stroke-width="1.6" fill="none" opacity="0.95" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 44 H28 V36 H38"/>
+      <path d="M38 36 V48 H48"/>
+      <path d="M22 52 H34"/>
+    </g>
+    <g fill="#ffffff">
+      <circle cx="18" cy="44" r="1.8"/>
+      <circle cx="28" cy="36" r="1.8"/>
+      <circle cx="38" cy="48" r="1.8"/>
+      <circle cx="48" cy="48" r="1.8"/>
+      <circle cx="34" cy="52" r="1.8"/>
+    </g>
+    <!-- Highlight -->
+    <ellipse cx="22" cy="22" rx="5" ry="8" fill="#ffffff" opacity="0.25"/>
+  </g>
+
+  <!-- Wordmark -->
+  <g font-family="Inter, Segoe UI, Arial, sans-serif" font-weight="800">
+    <text x="86" y="46" font-size="30" fill="url(#textGrad)" letter-spacing="-0.5">Tech<tspan fill="#0a72c4">Water</tspan></text>
+    <text x="87" y="62" font-size="9" fill="#5b6b7a" font-weight="600" letter-spacing="1.5">WATER SOLUTIONS · INNOVATIVE TECH</text>
+  </g>
+</svg>
