@@ -51,3 +51,22 @@ NVIDIA Corporation designs GPU-based accelerators that have become the dominant 
 
 ---
 *[JUDGE VERDICT WILL BE APPENDED HERE]*
+
+---
+
+## Judge Verdict
+
+**Verdict: FAIL**
+**Confidence: medium** (moat is real but 10-year durability genuinely uncertain)
+
+**Reasoning (Buffett framing):**
+Nvidia's CUDA ecosystem creates genuine switching costs — a real moat by Buffett's switching-cost definition — and Jensen Huang's founder-led strategic vision earns a management PASS. However, the verdict fails on two independent grounds that cannot be overcome by price. First, the 10-year moat durability is unproven against custom silicon buildout by the hyperscalers (Google TPU, Amazon Trainium, Meta MTIA) and AMD's accelerating challenge — Buffett's moat test requires confidence that the economic castle holds for *decades*, not 3–5 years. Second, the price (35–45x trailing P/E) is 2–3x Buffett's documented ceiling for wonderful businesses, AND prices in 10 years of dominance that Buffett explicitly refuses to assume. This is a textbook "too hard" pile case: Buffett stated in the 1998 annual meeting that "I don't know what a business is worth if I can't predict what it will earn in 10 years" — the AI chip platform outcome in 2035 is genuinely unknowable. A Buffett-style investor admires the business, acknowledges it lies outside the circle of competence on durability, and passes regardless of recent performance.
+
+**Closest Berkshire analog (held or rejected):**
+US Air preferred (1989, $358M) — not a direct analog but the pattern echoes: strong near-term competitive position in a capital-intensive industry with structural uncertainty about long-term pricing power; Buffett later called it a mistake even though the preferred eventually recovered.
+
+**Verdict summary:**
+- Moat: MODERATE
+- Management: PASS
+- Price: FAIL
+- Overall: **FAIL**

@@ -49,3 +49,22 @@ Apple Inc. generates revenue across five segments: iPhone (~52%), Services (~22%
 
 ---
 *[JUDGE VERDICT WILL BE APPENDED HERE]*
+
+---
+
+## Judge Verdict
+
+**Verdict: WATCH**
+**Confidence: high**
+
+**Reasoning (Buffett framing):**
+Apple passes the moat and management gates as decisively as any business Buffett has publicly described — the iOS/iMessage/Services ecosystem switching-cost moat is among the strongest he has documented outside of Coca-Cola's brand, and Tim Cook's capital return record (>$700B in buybacks, disciplined M&A) earns the same "able and trustworthy" designation Buffett applies to his own operating managers. The sole barrier is price: at 28–30x trailing earnings, the stock is trading at roughly 2x Buffett's historical purchase ceiling and above the level at which he himself trimmed Berkshire's position in 2024. As Buffett wrote in the 1989 letter, "Time is the friend of the wonderful business" — a buyer at full price in a wonderful business will eventually be made whole, but the margin of safety is thin. Wait for a 20–25x entry (approximately a 15–20% correction from current levels) before building a full position.
+
+**Closest Berkshire analog (held or rejected):**
+Berkshire's own Apple position — initiated 2016–2018 at roughly 12–15x earnings, held through to a 2024 trim at 28–30x; the trim itself is the signal: moat intact, price the only reservation.
+
+**Verdict summary:**
+- Moat: STRONG
+- Management: PASS
+- Price: WATCH
+- Overall: **WATCH**
