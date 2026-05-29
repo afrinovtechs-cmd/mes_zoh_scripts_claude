@@ -23,3 +23,16 @@
 [ANALYST][PHASE 2][2026-05-29] RELIANCE.NS report written to ./reports/RELIANCE.NS.md
 [ANALYST][PHASE 2][2026-05-29] IBE report written to ./reports/IBE.md
 [ANALYST][COMPLETE][2026-05-29] All 10 reports written. Judge may proceed.
+[JUDGE][PHASE 2 — NEW RUN][2026-05-29] Starting 10-ticker verdict run
+[JUDGE][PHASE 2][2026-05-29] ABBV verdict appended
+[JUDGE][PHASE 2][2026-05-29] 4599 verdict appended
+[JUDGE][PHASE 2][2026-05-29] 600276 verdict appended
+[JUDGE][PHASE 2][2026-05-29] 0981.HK verdict appended
+[JUDGE][PHASE 2][2026-05-29] MCHP verdict appended
+[JUDGE][PHASE 2][2026-05-29] 6857 verdict appended
+[JUDGE][PHASE 2][2026-05-29] CATL verdict appended
+[JUDGE][PHASE 2][2026-05-29] 0386.HK verdict appended
+[JUDGE][PHASE 2][2026-05-29] RELIANCE.NS verdict appended
+[JUDGE][PHASE 2][2026-05-29] IBE verdict appended
+[JUDGE][PHASE 3][2026-05-29] verdicts.md written — sorted FAIL→WATCH→PASS
+[JUDGE][COMPLETE][2026-05-29] 10-ticker international audit complete.

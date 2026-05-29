@@ -42,3 +42,28 @@ AbbVie sits at the edge of Buffett's documented circle — the Botox aesthetics 
 
 ---
 *[JUDGE VERDICT WILL BE APPENDED HERE]*
+
+---
+
+## Judge Verdict
+
+**Verdict: WATCH**
+**Confidence: medium**
+
+**Reasoning (Buffett framing):**
+AbbVie's Skyrizi/Rinvoq pipeline succession partially replaces Humira's patent cliff, giving it a rolling pharmaceutical moat analogous to what Buffett called "the ability to raise prices without losing customers" — Botox in aesthetics comes closest to that standard. However, pharma pipelines are binary-outcome bets, and Buffett's documented avoidance of pure pharma ("We don't invest in things where we can't predict the earnings in 10 years") puts this firmly at EDGE of his circle. At 17–19x P/E the price is reasonable, but a D/E of 5x on a patent-cliff business introduces exactly the fragility Buffett warned against in the 1989 letter: "leverage amplifies both gains and losses."
+
+**Closest Berkshire analog (held or rejected):**
+Johnson & Johnson — Buffett has repeatedly praised JNJ's diversified healthcare model as the template for durable pharma; ABBV shares JNJ's multi-franchise structure but lacks its balance sheet conservatism and lacks a full PASS on moat durability.
+
+**Circle of competence ruling:**
+EDGE — the Botox aesthetics franchise is consumer-brand-like and assessable, but immunology/oncology pipeline outcomes over 10 years are outside Buffett's documented circle.
+
+**Verdict summary:**
+| Gate | Result |
+|------|--------|
+| Moat | MODERATE |
+| Management | WATCH |
+| Price | WATCH |
+| Circle | EDGE |
+| **Overall** | **WATCH** |

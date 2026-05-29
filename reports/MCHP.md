@@ -42,3 +42,28 @@ Microchip is at the accessible edge of Buffett's circle. The company is not a cu
 
 ---
 *[JUDGE VERDICT WILL BE APPENDED HERE]*
+
+---
+
+## Judge Verdict
+
+**Verdict: PASS**
+**Confidence: high**
+
+**Reasoning (Buffett framing):**
+Microchip Technology exemplifies Buffett's switching-cost moat in an industrial context. Microcontrollers embedded in product designs create multi-year re-certification lock-in — customers do not switch suppliers lightly, creating the "stickiness" Buffett praised in Apple's ecosystem at the 2018 Annual Meeting. The 25+ year consecutive dividend growth record signals exactly the capital allocation discipline Buffett requires: "able and trustworthy managers who think like owners." At a cyclical trough P/E of 18–22x, the price is within Buffett's documented comfort zone for a business with durable competitive advantages, and normalised earnings power is materially higher.
+
+**Closest Berkshire analog (held or rejected):**
+Precision Castparts (Berkshire acquired 2016) — industrial switching costs, long customer relationships, mission-critical embedded components; MCHP's MCU design-win model is the electronic equivalent of PCC's aerospace casting lock-in.
+
+**Circle of competence ruling:**
+IN — embedded industrial microcontrollers serving the same end-markets for decades are analytically closer to a specialty industrial supplier than a semiconductor technology company; the switching-cost economics are well-understood.
+
+**Verdict summary:**
+| Gate | Result |
+|------|--------|
+| Moat | STRONG |
+| Management | PASS |
+| Price | PASS |
+| Circle | IN |
+| **Overall** | **PASS** |

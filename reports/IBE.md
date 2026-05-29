@@ -43,3 +43,28 @@ Iberdrola falls squarely within Buffett's documented circle of competence. Regul
 
 ---
 *[JUDGE VERDICT WILL BE APPENDED HERE]*
+
+---
+
+## Judge Verdict
+
+**Verdict: PASS**
+**Confidence: high**
+
+**Reasoning (Buffett framing):**
+Iberdrola is the clearest Buffett-framework match in this international portfolio. Regulated utility equals government-granted local monopoly, which Buffett has called one of his preferred business models: "If I could own all the utilities in the country I would." Long-term Power Purchase Agreements provide 15–20 year revenue visibility that satisfies his "predictable earnings in 10 years" standard precisely. Ignacio Galán's 24-year tenure and consistent progressive dividend growth demonstrate exactly the owner-mindset Buffett requires. At 14–18x P/E with a 4–5% dividend yield, the price is squarely within Buffett's documented comfort zone — a fair price for a wonderful, highly predictable business.
+
+**Closest Berkshire analog (held or rejected):**
+MidAmerican Energy / Berkshire Hathaway Energy (Berkshire acquired 2000, expanded aggressively) — Buffett wrote in the 2014 letter that "MidAmerican will be making major renewable energy investments for decades"; Iberdrola is MidAmerican's European counterpart in every material respect.
+
+**Circle of competence ruling:**
+IN — regulated utility economics are Buffett's most explicitly endorsed and documented business model; he has deployed $20B+ in BHE and written extensively about utility moats; Iberdrola is the most "in circle" investment in this entire portfolio.
+
+**Verdict summary:**
+| Gate | Result |
+|------|--------|
+| Moat | STRONG |
+| Management | PASS |
+| Price | PASS |
+| Circle | IN |
+| **Overall** | **PASS** |

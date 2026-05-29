@@ -44,3 +44,28 @@ Reliance straddles Buffett's circle in interesting ways: Jio's network-effect te
 
 ---
 *[JUDGE VERDICT WILL BE APPENDED HERE]*
+
+---
+
+## Judge Verdict
+
+**Verdict: WATCH**
+**Confidence: medium**
+
+**Reasoning (Buffett framing):**
+Reliance's Jio platform has built genuine network-effect moats in Indian telecom — 450M+ subscribers on a platform Buffett would recognise as structurally analogous to American Express, which he described in the 1991 letter as a network that "gets harder to displace with every passing day." Mukesh Ambani's capital allocation history (invest heavily to dominate, then harvest) reflects exactly the owner-operator conviction Buffett prizes in figures like Tom Murphy. However, Indian family-controlled conglomerate governance, related-party transaction risk, and O2C commodity drag prevent a full PASS. At 22–28x P/E the price is fair for Jio's optionality but above Buffett's benchmark for the whole conglomerate.
+
+**Closest Berkshire analog (held or rejected):**
+BYD (Berkshire held 2008–2022, eventually exited citing geographic and complexity constraints, not moat doubts) — Buffett respected the founder-operator but found the complexity of a Chinese growth conglomerate at the persistent edge of his circle; Reliance maps to the same template in India.
+
+**Circle of competence ruling:**
+EDGE — Jio's network-effect telecom moat is conceptually analogous to AmEx and BNSF infrastructure within Buffett's circle, but Indian regulatory complexity, family conglomerate governance, and O2C commodity exposure collectively place Reliance at the boundary.
+
+**Verdict summary:**
+| Gate | Result |
+|------|--------|
+| Moat | MODERATE–STRONG |
+| Management | PASS |
+| Price | WATCH |
+| Circle | EDGE |
+| **Overall** | **WATCH** |

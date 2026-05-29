@@ -42,3 +42,28 @@ CATL is partially outside Buffett's documented circle. The battery manufacturing
 
 ---
 *[JUDGE VERDICT WILL BE APPENDED HERE]*
+
+---
+
+## Judge Verdict
+
+**Verdict: WATCH**
+**Confidence: medium**
+
+**Reasoning (Buffett framing):**
+CATL's scale and cost leadership in EV batteries is real today, but Buffett's framework demands the question: "Will this moat be as strong in 2035?" The honest answer is uncertain — solid-state batteries, Western subsidised competition (IRA Act), and BYD vertical integration all threaten CATL's position in ways analogous to the secular threats Buffett failed to anticipate at Dexter Shoe (2007 letter). Robin Zeng's founder-led capital allocation earns a management PASS. The price at 15–20x is reasonable and no longer disqualifying. The verdict turns entirely on moat durability, and that uncertainty maps directly to Buffett's "too hard" boundary.
+
+**Closest Berkshire analog (held or rejected):**
+BYD (Berkshire held 2008–2022, eventually exited) — Buffett respected the founder-operator Wang Chuanfu but ultimately found the complexity of a Chinese industrial conglomerate at the edge of his circle; CATL shares the same founder-quality / governance-complexity tension that drove the BYD exit.
+
+**Circle of competence ruling:**
+EDGE — battery manufacturing economics are understandable at a high level, but battery chemistry evolution (solid-state timing, LFP vs NMC trade-offs), Chinese A-share governance, and geopolitical battery supply chain dynamics collectively push this outside Buffett's documented circle.
+
+**Verdict summary:**
+| Gate | Result |
+|------|--------|
+| Moat | MODERATE |
+| Management | WATCH |
+| Price | WATCH |
+| Circle | EDGE |
+| **Overall** | **WATCH** |
