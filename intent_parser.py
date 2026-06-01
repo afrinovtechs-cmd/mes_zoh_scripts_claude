@@ -1,22 +1,42 @@
-import anthropic, json, re, pathlib
+import re
+import pathlib
+
+_ALL_WORDS = re.compile(r'\b(all|tout|portfolio|full|complet)\b', re.I)
+_FAIL_WORDS = re.compile(r'\b(fail|failed|échoué|rerun|re.run|relance)\b', re.I)
+_MOAT = re.compile(r'\bmoat\b', re.I)
+_MGMT = re.compile(r'\b(management|mgmt|gestion)\b', re.I)
+_PRICE = re.compile(r'\b(price|prix|valuation|valorisation)\b', re.I)
+
+def _load_tickers() -> list:
+    p = pathlib.Path("portfolio.csv")
+    if not p.exists():
+        return []
+    return [t.strip().upper() for t in p.read_text().splitlines() if t.strip()]
 
 def parse_intent(msg: str) -> dict:
-    tickers = []
-    p = pathlib.Path("portfolio.csv")
-    if p.exists():
-        tickers = [t.strip() for t in p.read_text().splitlines() if t.strip()]
+    upper = msg.upper()
+    known = _load_tickers()
 
-    prompt = (
-        "Intent parser for a stock audit assistant. Convert the user message to JSON.\n"
-        'Schema: {"action":"audit|clarify|rerun_fails","tickers":["T1","T2"]|"all","filters":["moat","management","price"]}\n'
-        'If ambiguous: {"action":"clarify","question":"..."}\n'
-        f"Available tickers: {tickers}\n"
-        "Return only valid JSON, no commentary.\n"
-        f"User: {msg}"
-    )
-    resp = anthropic.Anthropic().messages.create(
-        model="claude-haiku-4-5-20251001", max_tokens=300,
-        messages=[{"role": "user", "content": prompt}]
-    )
-    m = re.search(r'\{.*\}', resp.content[0].text, re.DOTALL)
-    return json.loads(m.group()) if m else {"action": "clarify", "question": "Could you clarify your request?"}
+    # Filters
+    filters = []
+    if _MOAT.search(msg):   filters.append("moat")
+    if _MGMT.search(msg):   filters.append("management")
+    if _PRICE.search(msg):  filters.append("price")
+    if not filters:
+        filters = ["moat", "management", "price"]
+
+    # Re-run FAILs
+    if _FAIL_WORDS.search(msg):
+        return {"action": "rerun_fails", "tickers": [], "filters": filters}
+
+    # Explicit tickers mentioned in message
+    mentioned = [t for t in known if re.search(rf'\b{re.escape(t)}\b', upper)]
+
+    # "audit all portfolio"
+    if _ALL_WORDS.search(msg) or not mentioned:
+        if not known:
+            return {"action": "clarify",
+                    "question": "portfolio.csv is empty. Which tickers would you like to add?"}
+        return {"action": "audit", "tickers": "all", "filters": filters}
+
+    return {"action": "audit", "tickers": mentioned, "filters": filters}
