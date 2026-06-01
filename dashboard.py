@@ -7,15 +7,19 @@ def _parse_verdicts() -> list:
     rows = []
     text = (pathlib.Path(__file__).parent / "verdicts.md").read_text()
     for line in text.splitlines():
-        m = re.match(r'\|\s*(\S+)\s*\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|\s*\*\*(PASS|FAIL|WATCH)\*\*', line)
+        # Format: | Ticker | Company | Country | Moat | Mgmt | Price | Circle | **VERDICT** | Confidence |
+        m = re.match(
+            r'\|\s*(\S+)\s*\|([^|]+)\|[^|]+\|([^|]+)\|([^|]+)\|([^|]+)\|[^|]+\|\s*\*\*(PASS|FAIL|WATCH)\*\*',
+            line
+        )
         if m:
             rows.append({
-                "ticker": m.group(1),
+                "ticker":  m.group(1),
                 "company": m.group(2).strip(),
-                "moat": m.group(3).strip(),
-                "mgmt": m.group(4).strip(),
-                "price": m.group(5).strip(),
-                "verdict": m.group(7),
+                "moat":    m.group(3).strip(),
+                "mgmt":    m.group(4).strip(),
+                "price":   m.group(5).strip(),
+                "verdict": m.group(6),
             })
     return rows
 
