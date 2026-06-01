@@ -53,6 +53,9 @@ if user_input := st.chat_input("e.g. 'Audit my full portfolio' or 'Re-run the FA
                             msg = ("⚠️ NotebookLM auth expired. "
                                    "Run `notebooklm login` on your machine, then retry.")
                             st.error(msg); add("assistant", msg); break
+                        elif event.startswith("NO_CLAUDE_CLI|"):
+                            info = event.split("|", 1)[1]
+                            st.warning(info); add("assistant", info)
                         elif event.startswith("ERROR:"):
                             st.error(event); add("assistant", event); break
                         elif event == "DONE":

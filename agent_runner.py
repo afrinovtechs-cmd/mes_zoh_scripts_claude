@@ -1,4 +1,4 @@
-import subprocess, pathlib, re
+import subprocess, pathlib, re, shutil
 from typing import Generator
 
 WORK_DIR = pathlib.Path(__file__).parent
@@ -9,31 +9,57 @@ def get_fail_tickers() -> list:
         return []
     return re.findall(r'\|\s*(\S+)\s*\|[^|]*\|[^|]*\|[^|]*\|[^|]*\|\s*\*\*FAIL\*\*', v.read_text())
 
+def claude_available() -> bool:
+    return shutil.which("claude") is not None
+
 def _prompt(tickers: list) -> str:
-    cache = (WORK_DIR / "cache" / "analyst-framework.md")
+    cache = WORK_DIR / "cache" / "analyst-framework.md"
     framework = cache.read_text()[:2000] if cache.exists() else "Use Buffett shareholder letters framework."
-    return f"""Warren Buffett portfolio audit. Working dir: {WORK_DIR}
-Tickers to audit: {', '.join(tickers)}
-
-Buffett framework summary (from cache):
-{framework}
-
-Instructions:
-1. For each ticker write ./reports/[TICKER].md with moat/management/price analysis.
-2. Append Judge verdict (PASS/WATCH/FAIL) to each report.
-3. Write ./verdicts.md sorted FAIL->WATCH->PASS.
-Print one progress line per step: "TICKER: action done"
-Do not stop until verdicts.md is written."""
+    return (
+        f"Warren Buffett portfolio audit. Working dir: {WORK_DIR}\n"
+        f"Tickers: {', '.join(tickers)}\n\nFramework (cached):\n{framework}\n\n"
+        "1. For each ticker write ./reports/[TICKER].md with moat/management/price analysis.\n"
+        "2. Append Judge verdict (PASS/WATCH/FAIL) to each report.\n"
+        "3. Write ./verdicts.md sorted FAIL->WATCH->PASS.\n"
+        "Print one line per step: 'TICKER: status'. Do not stop until verdicts.md is written."
+    )
 
 def run_audit(tickers: list) -> Generator:
     (WORK_DIR / "portfolio.csv").write_text("\n".join(tickers))
-    yield f"Starting audit for: {', '.join(tickers)}"
 
-    proc = subprocess.Popen(
-        ["claude", "-p", _prompt(tickers)],
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-        text=True, cwd=str(WORK_DIR)
-    )
+    # ── Check Claude Code CLI is present ──────────────────────────────────
+    if not claude_available():
+        yield (
+            "NO_CLAUDE_CLI|Claude Code CLI not found on this machine.\n"
+            "Install it with:\n"
+            "  npm install -g @anthropic-ai/claude-code\n"
+            "(requires Node.js — download from https://nodejs.org)\n\n"
+            "Falling back to last saved results..."
+        )
+        # Fallback: stream existing reports as read-only view
+        for ticker in tickers:
+            report = WORK_DIR / "reports" / f"{ticker}.md"
+            if report.exists():
+                yield f"📄 {ticker}: existing report found"
+            else:
+                yield f"⚠️  {ticker}: no report yet (run a live audit first)"
+        verdicts = WORK_DIR / "verdicts.md"
+        if verdicts.exists():
+            yield "DONE"
+        return
+
+    # ── Live audit via Claude Code CLI ────────────────────────────────────
+    yield f"Starting live audit: {', '.join(tickers)}"
+
+    try:
+        proc = subprocess.Popen(
+            ["claude", "-p", _prompt(tickers)],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            text=True, cwd=str(WORK_DIR)
+        )
+    except FileNotFoundError:
+        yield "ERROR: claude CLI not found even after PATH check. Restart your terminal and try again."
+        return
 
     verdict_re = re.compile(r'(PASS|FAIL|WATCH)', re.I)
     for line in iter(proc.stdout.readline, ""):
