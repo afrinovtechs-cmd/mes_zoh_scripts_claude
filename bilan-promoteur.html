@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bilan Promoteur R+2 à R+4</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : fiche de bilan promoteur — saisie à gauche (colonne collante), résultats à droite ; coupe du bâtiment comme pièce maîtresse */
+:root {
+  --bg: #eef1f2;
+  --surface: #ffffff;
+  --ink: #18232b;
+  --muted: #5b6a74;
+  --line: #d3dbe0;
+  --accent: #1d5d86;      /* bleu plan */
+  --accent-soft: #dce9f2;
+  --ochre: #b7791f;       /* surligneur de chantier */
+  --ochre-soft: #f6ead5;
+  --good: #1f7a4d; --good-soft: #dcf0e5;
+  --warn: #9a6a00; --warn-soft: #f8edcc;
+  --bad: #b23a3a;  --bad-soft: #f6dddd;
+  --floor: #c9d7e0; --floor-rdc: #a9c3d4; --ground: #8a7a63;
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #11181d; --surface: #182229; --ink: #e4ebef; --muted: #93a3ad; --line: #2b3a44;
+  --accent: #6fb2dd; --accent-soft: #1d3444; --ochre: #e0a54a; --ochre-soft: #3a2d17;
+  --good: #5fcf93; --good-soft: #173628; --warn: #e3b84f; --warn-soft: #3a3016; --bad: #ef8484; --bad-soft: #3d1f22;
+  --floor: #2c4252; --floor-rdc: #3a5a70; --ground: #8f7f68; color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --bg: #11181d; --surface: #182229; --ink: #e4ebef; --muted: #93a3ad; --line: #2b3a44;
+  --accent: #6fb2dd; --accent-soft: #1d3444; --ochre: #e0a54a; --ochre-soft: #3a2d17;
+  --good: #5fcf93; --good-soft: #173628; --warn: #e3b84f; --warn-soft: #3a3016; --bad: #ef8484; --bad-soft: #3d1f22;
+  --floor: #2c4252; --floor-rdc: #3a5a70; --ground: #8f7f68; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; margin-bottom: 22px; }
+h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(1.6rem, 3.2vw, 2.3rem); letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+h1 span { color: var(--accent); }
+.lede { color: var(--muted); margin: 4px 0 0; max-width: 62ch; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: 1.05rem; margin: 0 0 12px; letter-spacing: 0.01em; }
+.eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); font-weight: 600; }
+.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+
+.grid { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 22px; align-items: start; }
+@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Saisie */
+form.inputs { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 18px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+@media (max-width: 900px) { form.inputs { position: static; } }
+fieldset { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+fieldset + fieldset { border-top: 1px dashed var(--line); padding-top: 16px; }
+legend { font-family: var(--f-display); font-weight: 700; font-size: 0.92rem; margin-bottom: 8px; padding: 0; display: flex; gap: 8px; align-items: baseline; }
+legend small { font-family: var(--f-body); font-weight: 400; color: var(--muted); font-size: 0.78rem; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+label.f { display: flex; flex-direction: column; gap: 4px; font-size: 0.82rem; color: var(--muted); min-width: 0; }
+.field { display: flex; align-items: stretch; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); overflow: hidden; }
+.field:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.field input, .field select { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); font: 500 0.95rem var(--f-mono); padding: 8px 10px; outline: none; }
+.field select { font-family: var(--f-body); }
+.field .u { display: flex; align-items: center; padding: 0 9px; font-size: 0.75rem; color: var(--muted); border-left: 1px solid var(--line); white-space: nowrap; }
+.levels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.levels input { position: absolute; opacity: 0; pointer-events: none; }
+.levels label { text-align: center; padding: 9px 4px; border: 1px solid var(--line); border-radius: 6px; cursor: pointer; font: 700 0.95rem var(--f-display); background: var(--bg); }
+.levels label small { display: block; font: 400 0.7rem var(--f-body); color: var(--muted); }
+.levels input:checked + label { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.levels input:checked + label small { color: var(--surface); opacity: 0.85; }
+.levels input:focus-visible + label { outline: 2px solid var(--ochre); outline-offset: 2px; }
+.check { display: flex; gap: 8px; align-items: center; font-size: 0.85rem; cursor: pointer; }
+.check input { accent-color: var(--accent); width: 16px; height: 16px; }
+.hint { font-size: 0.75rem; color: var(--muted); margin: 0; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: 600 0.85rem var(--f-body); border-radius: 6px; padding: 8px 12px; cursor: pointer; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+button:hover { border-color: var(--accent); color: var(--accent); }
+button:focus-visible { outline: 2px solid var(--ochre); outline-offset: 2px; }
+
+/* Résultats */
+.results { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; min-width: 0; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+@media (max-width: 1100px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.kpi { background: var(--surface); padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.kpi .v { font: 600 clamp(1.15rem, 2.2vw, 1.5rem) var(--f-mono); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.kpi .s { font-size: 0.78rem; color: var(--muted); }
+.kpi.hl { background: var(--ochre-soft); }
+.kpi.hl .v { color: var(--ochre); }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 600; padding: 2px 9px; border-radius: 99px; width: fit-content; }
+.pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.pill.good { color: var(--good); background: var(--good-soft); }
+.pill.warn { color: var(--warn); background: var(--warn-soft); }
+.pill.bad { color: var(--bad); background: var(--bad-soft); }
+
+.split { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 22px; }
+@media (max-width: 1100px) { .split { grid-template-columns: minmax(0, 1fr); } }
+
+/* Coupe du bâtiment */
+.section-cut { display: flex; flex-direction: column; gap: 3px; padding: 6px 0 0; }
+.floor { display: grid; grid-template-columns: 58px minmax(0, 1fr); align-items: stretch; gap: 10px; }
+.floor .tag { font: 700 0.85rem var(--f-display); display: flex; align-items: center; justify-content: flex-end; color: var(--muted); }
+.floor .slab { background: var(--floor); border-radius: 3px; padding: 7px 10px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; font-size: 0.8rem; min-height: 40px; align-items: center;
+  background-image: repeating-linear-gradient(90deg, transparent 0 34px, color-mix(in srgb, var(--surface) 55%, transparent) 34px 46px); }
+.floor.rdc .slab { background-color: var(--floor-rdc); min-height: 48px; }
+.floor.ss .slab { background-color: transparent; border: 1px dashed var(--ground); background-image: none; color: var(--muted); }
+.floor .slab b { font-weight: 600; }
+.ground { height: 4px; background: var(--ground); margin: 3px 0 3px 68px; border-radius: 2px; position: relative; }
+.ground::after { content: "terrain naturel"; position: absolute; right: 0; top: 6px; font-size: 0.68rem; color: var(--muted); }
+.roof { margin-left: 68px; height: 6px; border-radius: 3px 3px 0 0; background: var(--accent); opacity: 0.75; }
+.surfaces { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+.surfaces div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.surfaces .num { font-size: 1.05rem; font-weight: 500; }
+
+/* Tableaux */
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; white-space: normal; }
+thead th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 600; }
+td.num, td .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+tr.total td { font-weight: 600; border-top: 2px solid var(--ink); border-bottom: 0; }
+tr.sub td { color: var(--muted); font-size: 0.82rem; }
+.share { display: inline-block; width: 70px; height: 6px; background: var(--accent-soft); border-radius: 3px; vertical-align: middle; margin-left: 8px; overflow: hidden; }
+.share i { display: block; height: 100%; background: var(--accent); }
+.cmp th.sel, .cmp td.sel { background: var(--accent-soft); }
+.cmp thead th.sel { color: var(--accent); }
+
+/* Graphique */
+.chart svg { width: 100%; height: auto; display: block; }
+.chart text { fill: var(--muted); font-family: var(--f-body); font-size: 11px; }
+.chart .lbl { fill: var(--ink); font-family: var(--f-mono); font-size: 10.5px; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.8rem; color: var(--muted); margin-top: 6px; }
+.legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; background: var(--c); }
+
+.sens td { text-align: center; font-family: var(--f-mono); }
+.sens th { text-align: center; }
+.sens td.c0 { outline: 2px solid var(--ink); outline-offset: -2px; font-weight: 600; }
+.notes { font-size: 0.8rem; color: var(--muted); margin: 10px 0 0; max-width: 80ch; }
+.sample { font-size: 0.78rem; background: var(--ochre-soft); color: var(--ochre); padding: 6px 10px; border-radius: 6px; }
+@media (prefers-reduced-motion: no-preference) { .slab, .share i { transition: all 0.25s ease; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Analyse rapide · immeuble RDC + 2 à RDC + 4</div>
+      <h1>Bilan <span>Promoteur</span></h1>
+      <p class="lede">Du terrain au rendement : coût de construction au m² couvert, surfaces privatives, frais administratifs en pourcentage de l'investissement, puis marge à la vente et rendement locatif.</p>
+    </div>
+    <div class="sample" id="sampleNote">Valeurs d'exemple. Remplacez-les par les chiffres de votre projet.</div>
+  </header>
+
+  <div class="grid">
+    <form class="inputs" id="form" autocomplete="off">
+      <fieldset>
+        <legend>1 · Terrain</legend>
+        <div class="row2">
+          <label class="f">Surface du terrain
+            <span class="field"><input id="terrain" type="number" min="0" step="1" inputmode="decimal"><span class="u">m²</span></span></label>
+          <label class="f">Prix du terrain
+            <span class="field"><input id="prixTerrain" type="number" min="0" step="100" inputmode="decimal"><span class="u" data-cur="/m²">DH/m²</span></span></label>
+        </div>
+        <label class="f">Emprise au sol (CES)
+          <span class="field"><input id="ces" type="number" min="0" max="100" step="1" inputmode="decimal"><span class="u">% du terrain</span></span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>2 · Gabarit <small>nombre d'étages</small></legend>
+        <div class="levels" role="radiogroup" aria-label="Gabarit">
+          <input type="radio" name="niv" id="n2" value="2"><label for="n2">R+2<small>3 niveaux</small></label>
+          <input type="radio" name="niv" id="n3" value="3"><label for="n3">R+3<small>4 niveaux</small></label>
+          <input type="radio" name="niv" id="n4" value="4"><label for="n4">R+4<small>5 niveaux</small></label>
+        </div>
+        <label class="check"><input type="checkbox" id="ss"> Sous-sol (parking, non vendu)</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>3 · Construction</legend>
+        <label class="f">Coût de construction
+          <span class="field"><input id="coutM2" type="number" min="0" step="50" inputmode="decimal"><span class="u" data-cur="/m² couvert">DH/m² couvert</span></span></label>
+        <div class="row2">
+          <label class="f">Ratio privatif
+            <span class="field"><input id="ratioPriv" type="number" min="1" max="100" step="1" inputmode="decimal"><span class="u">% couvert</span></span></label>
+          <label class="f">Frais administratifs
+            <span class="field"><input id="admin" type="number" min="0" max="100" step="0.5" inputmode="decimal"><span class="u">%</span></span></label>
+        </div>
+        <p class="hint">Ratio privatif : part de la surface couverte réellement vendable (hors murs, escaliers, paliers). Frais administratifs : autorisations, notaire, architecte, BET, topographe… calculés sur terrain + construction.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>4 · Vente</legend>
+        <label class="f">Usage du RDC
+          <span class="field"><select id="usageRdc"><option value="commerce">Commerces / magasins</option><option value="habitation">Habitation</option></select></span></label>
+        <div class="row2">
+          <label class="f">Prix logement
+            <span class="field"><input id="pvLog" type="number" min="0" step="100" inputmode="decimal"><span class="u" data-cur="/m²">DH/m²</span></span></label>
+          <label class="f">Prix commerce
+            <span class="field"><input id="pvCom" type="number" min="0" step="100" inputmode="decimal"><span class="u" data-cur="/m²">DH/m²</span></span></label>
+        </div>
+        <label class="f">Durée du projet (achat → vente)
+          <span class="field"><input id="duree" type="number" min="1" step="1" inputmode="decimal"><span class="u">mois</span></span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>5 · Location <small>si vous gardez le bien</small></legend>
+        <div class="row2">
+          <label class="f">Loyer logement
+            <span class="field"><input id="loyLog" type="number" min="0" step="1" inputmode="decimal"><span class="u" data-cur="/m²/mois">DH/m²/mois</span></span></label>
+          <label class="f">Loyer commerce
+            <span class="field"><input id="loyCom" type="number" min="0" step="1" inputmode="decimal"><span class="u" data-cur="/m²/mois">DH/m²/mois</span></span></label>
+        </div>
+        <div class="row2">
+          <label class="f">Charges + vacance
+            <span class="field"><input id="charges" type="number" min="0" max="100" step="1" inputmode="decimal"><span class="u">% loyers</span></span></label>
+          <label class="f">Devise
+            <span class="field"><input id="devise" type="text" maxlength="6" style="font-family:var(--f-body)"></span></label>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="button" id="reset">Revenir aux valeurs d'exemple</button>
+        <button type="button" id="copy">Copier le résumé</button>
+      </div>
+      <p class="hint" id="copyMsg" aria-live="polite"></p>
+    </form>
+
+    <div class="results">
+      <div class="kpis" id="kpis"></div>
+
+      <div class="split">
+        <section class="panel">
+          <h2>Coupe du bâtiment</h2>
+          <div class="section-cut" id="cut"></div>
+          <div class="surfaces" id="surfaces"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Bilan de l'investissement</h2>
+          <div class="tbl-wrap"><table id="bilan"></table></div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <h2>Comparatif des gabarits</h2>
+        <div class="tbl-wrap"><table class="cmp" id="cmp"></table></div>
+        <div class="chart" id="chart"></div>
+        <div class="legend">
+          <span style="--c: var(--accent)">Investissement total</span>
+          <span style="--c: var(--ochre)">Chiffre d'affaires (vente)</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Sensibilité de la marge (ROI vente)</h2>
+        <p class="hint" style="margin-bottom:10px">Gabarit sélectionné. Lignes : variation du prix de vente. Colonnes : variation du coût de construction.</p>
+        <div class="tbl-wrap"><table class="sens" id="sens"></table></div>
+        <p class="notes">Méthode : surface couverte = terrain × emprise × nombre de niveaux (+ sous-sol). Investissement = terrain + construction + frais administratifs. ROI vente = (chiffre d'affaires − investissement) ÷ investissement. Rendement locatif brut = loyers annuels ÷ investissement ; net = après charges et vacance. Seuils indicatifs : ROI ≥ 25 % bon, 15–25 % moyen ; rendement net ≥ 8 % bon, 6–8 % moyen. Hors fiscalité (TVA, IS, taxe sur terrains non bâtis) et frais financiers.</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const DEFAULTS = { terrain: 200, prixTerrain: 6000, ces: 90, niv: 3, ss: false, coutM2: 3200, ratioPriv: 82, admin: 10,
+    usageRdc: "commerce", pvLog: 9000, pvCom: 15000, duree: 24, loyLog: 45, loyCom: 90, charges: 15, devise: "DH" };
+  const KEY = "bilan-promoteur-v1";
+  const numIds = ["terrain","prixTerrain","ces","coutM2","ratioPriv","admin","pvLog","pvCom","duree","loyLog","loyCom","charges"];
+  const $ = id => document.getElementById(id);
+
+  let state = { ...DEFAULTS };
+  try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) state = { ...DEFAULTS, ...s }; } catch (e) {}
+
+  function fillForm() {
+    numIds.forEach(id => $(id).value = state[id]);
+    $("n" + state.niv).checked = true;
+    $("ss").checked = !!state.ss;
+    $("usageRdc").value = state.usageRdc;
+    $("devise").value = state.devise;
+  }
+  function readForm() {
+    numIds.forEach(id => { const v = parseFloat($(id).value); state[id] = isFinite(v) ? v : 0; });
+    state.niv = +document.querySelector('input[name="niv"]:checked').value;
+    state.ss = $("ss").checked;
+    state.usageRdc = $("usageRdc").value;
+    state.devise = ($("devise").value || "DH").trim();
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  // Calcul pour un gabarit donné (n étages au-dessus du RDC)
+  function calc(p, n, adj = { prix: 0, cout: 0 }) {
+    const emprise = p.terrain * p.ces / 100;
+    const niveaux = 1 + n;
+    const sCouvHors = emprise * niveaux;
+    const sSS = p.ss ? p.terrain : 0;
+    const sCouv = sCouvHors + sSS;
+    const r = p.ratioPriv / 100;
+    const privRdc = emprise * r, privEt = emprise * n * r, priv = privRdc + privEt;
+    const coutTerrain = p.terrain * p.prixTerrain;
+    const coutConstr = sCouv * p.coutM2 * (1 + adj.cout);
+    const admin = (coutTerrain + coutConstr) * p.admin / 100;
+    const invest = coutTerrain + coutConstr + admin;
+    const rdcCom = p.usageRdc === "commerce";
+    const k = 1 + adj.prix;
+    const caRdc = privRdc * (rdcCom ? p.pvCom : p.pvLog) * k;
+    const caEt = privEt * p.pvLog * k;
+    const ca = caRdc + caEt;
+    const marge = ca - invest;
+    const roi = invest ? marge / invest : 0;
+    const roiAn = !invest || !p.duree ? 0 : 1 + roi > 0 ? Math.pow(1 + roi, 12 / p.duree) - 1 : -1;
+    const loyerAn = 12 * (privRdc * (rdcCom ? p.loyCom : p.loyLog) + privEt * p.loyLog);
+    const loyerNet = loyerAn * (1 - p.charges / 100);
+    return { n, niveaux, emprise, sCouvHors, sSS, sCouv, privRdc, privEt, priv, coutTerrain, coutConstr, admin, invest,
+      caRdc, caEt, ca, marge, roi, roiAn, margeCA: ca ? marge / ca : 0, prixRevient: priv ? invest / priv : 0,
+      loyerAn, loyerNet, rendBrut: invest ? loyerAn / invest : 0, rendNet: invest ? loyerNet / invest : 0,
+      retour: loyerNet ? invest / loyerNet : Infinity, rdcCom };
+  }
+
+  const nf0 = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 });
+  const nf1 = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+  const money = v => nf0.format(Math.round(v)) + " " + state.devise;
+  const short = v => { const a = Math.abs(v);
+    if (a >= 1e6) return nf1.format(v / 1e6) + " M"; if (a >= 1e3) return nf0.format(v / 1e3) + " k"; return nf0.format(v); };
+  const m2 = v => nf0.format(v) + " m²";
+  const pct = v => nf1.format(v * 100) + " %";
+  const roiPill = v => v >= 0.25 ? '<span class="pill good">Bon</span>' : v >= 0.15 ? '<span class="pill warn">Moyen</span>' : '<span class="pill bad">Faible</span>';
+  const rendPill = v => v >= 0.08 ? '<span class="pill good">Bon</span>' : v >= 0.06 ? '<span class="pill warn">Moyen</span>' : '<span class="pill bad">Faible</span>';
+
+  function render() {
+    readForm();
+    document.querySelectorAll("[data-cur]").forEach(el => el.textContent = state.devise + el.dataset.cur);
+    const isDefault = Object.keys(DEFAULTS).every(k => state[k] === DEFAULTS[k]);
+    $("sampleNote").hidden = !isDefault;
+
+    const r = calc(state, state.niv);
+
+    $("kpis").innerHTML = `
+      <div class="kpi"><span class="eyebrow">Investissement total</span><span class="v">${short(r.invest)}</span><span class="s">${money(r.invest)}</span></div>
+      <div class="kpi"><span class="eyebrow">Chiffre d'affaires</span><span class="v">${short(r.ca)}</span><span class="s">Prix moyen ${money(r.priv ? r.ca / r.priv : 0)}/m²</span></div>
+      <div class="kpi hl"><span class="eyebrow">ROI vente</span><span class="v">${pct(r.roi)}</span><span class="s">${roiPill(r.roi)} Marge ${short(r.marge)} · ${pct(r.roiAn)}/an</span></div>
+      <div class="kpi"><span class="eyebrow">Rendement locatif net</span><span class="v">${pct(r.rendNet)}</span><span class="s">${rendPill(r.rendNet)} Brut ${pct(r.rendBrut)} · retour ${isFinite(r.retour) ? nf1.format(r.retour) + " ans" : "—"}</span></div>`;
+
+    // Coupe
+    let cut = '<div class="roof"></div>';
+    for (let i = r.n; i >= 1; i--) {
+      cut += `<div class="floor"><span class="tag">R+${i}</span><div class="slab"><span>Logements</span><span class="num"><b>${m2(r.emprise * state.ratioPriv / 100)}</b> priv. · ${m2(r.emprise)} couv.</span></div></div>`;
+    }
+    cut += `<div class="floor rdc"><span class="tag">RDC</span><div class="slab"><span>${r.rdcCom ? "Commerces" : "Logements"}</span><span class="num"><b>${m2(r.privRdc)}</b> priv. · ${m2(r.emprise)} couv.</span></div></div>`;
+    cut += '<div class="ground"></div>';
+    if (state.ss) cut += `<div class="floor ss"><span class="tag">SS</span><div class="slab"><span>Parking</span><span class="num">${m2(r.sSS)} couv. · non vendu</span></div></div>`;
+    $("cut").innerHTML = cut;
+    $("surfaces").innerHTML = `
+      <div><span class="eyebrow">Couvert total</span><span class="num">${m2(r.sCouv)}</span></div>
+      <div><span class="eyebrow">Privatif vendable</span><span class="num">${m2(r.priv)}</span></div>
+      <div><span class="eyebrow">Coût de revient</span><span class="num">${money(r.prixRevient)}/m²</span></div>`;
+
+    // Bilan
+    const share = v => `<span class="share"><i style="width:${r.invest ? Math.max(0, v / r.invest * 100) : 0}%"></i></span>`;
+    $("bilan").innerHTML = `
+      <thead><tr><th>Poste</th><th>Montant</th><th>Part</th></tr></thead>
+      <tbody>
+        <tr><td>Terrain <span class="hint">${m2(state.terrain)} × ${money(state.prixTerrain)}</span></td><td class="num">${money(r.coutTerrain)}</td><td class="num">${pct(r.coutTerrain / r.invest || 0)}${share(r.coutTerrain)}</td></tr>
+        <tr><td>Construction <span class="hint">${m2(r.sCouv)} × ${money(state.coutM2)}</span></td><td class="num">${money(r.coutConstr)}</td><td class="num">${pct(r.coutConstr / r.invest || 0)}${share(r.coutConstr)}</td></tr>
+        <tr><td>Frais administratifs <span class="hint">${nf1.format(state.admin)} % × (terrain + construction)</span></td><td class="num">${money(r.admin)}</td><td class="num">${pct(r.admin / r.invest || 0)}${share(r.admin)}</td></tr>
+        <tr class="total"><td>Investissement total</td><td class="num">${money(r.invest)}</td><td></td></tr>
+        <tr><td>Vente RDC <span class="hint">${m2(r.privRdc)} ${r.rdcCom ? "commerce" : "logement"}</span></td><td class="num">${money(r.caRdc)}</td><td></td></tr>
+        <tr><td>Vente étages <span class="hint">${m2(r.privEt)} logements</span></td><td class="num">${money(r.caEt)}</td><td></td></tr>
+        <tr class="total"><td>Chiffre d'affaires</td><td class="num">${money(r.ca)}</td><td></td></tr>
+        <tr class="total"><td>Marge brute</td><td class="num" style="color:var(${r.marge >= 0 ? "--good" : "--bad"})">${money(r.marge)}</td><td class="num">${pct(r.margeCA)} du CA</td></tr>
+        <tr class="sub"><td>Loyers annuels bruts / nets</td><td class="num">${money(r.loyerAn)}</td><td class="num">${money(r.loyerNet)}</td></tr>
+      </tbody>`;
+
+    // Comparatif
+    const all = [2, 3, 4].map(n => calc(state, n));
+    const cls = s => s.n === state.niv ? ' class="num sel"' : ' class="num"';
+    const rows = [
+      ["Surface couverte", s => m2(s.sCouv)],
+      ["Surface privative", s => m2(s.priv)],
+      ["Investissement total", s => money(s.invest)],
+      ["Chiffre d'affaires", s => money(s.ca)],
+      ["Marge brute", s => money(s.marge)],
+      ["ROI vente", s => pct(s.roi) + " " + roiPill(s.roi)],
+      ["ROI annualisé", s => pct(s.roiAn)],
+      ["Coût de revient / m² privatif", s => money(s.prixRevient)],
+      ["Rendement locatif net", s => pct(s.rendNet) + " " + rendPill(s.rendNet)],
+    ];
+    $("cmp").innerHTML = `<thead><tr><th></th>${all.map(s => `<th${s.n === state.niv ? ' class="sel"' : ""}>R+${s.n}</th>`).join("")}</tr></thead>
+      <tbody>${rows.map(([l, f]) => `<tr><td>${l}</td>${all.map(s => `<td${cls(s)}>${f(s)}</td>`).join("")}</tr>`).join("")}</tbody>`;
+
+    // Graphique barres groupées
+    const W = 640, H = 230, padL = 56, padB = 28, padT = 18, plotH = H - padB - padT;
+    const max = Math.max(...all.flatMap(s => [s.invest, s.ca]), 1);
+    const step = niceStep(max / 4); const top = Math.ceil(max / step) * step;
+    const y = v => padT + plotH - v / top * plotH;
+    let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Investissement et chiffre d'affaires par gabarit">`;
+    for (let t = 0; t <= top + 1e-6; t += step) {
+      svg += `<line x1="${padL}" x2="${W - 8}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)" stroke-width="1"/>`;
+      svg += `<text x="${padL - 8}" y="${y(t) + 4}" text-anchor="end">${short(t)}</text>`;
+    }
+    const gw = (W - padL - 8) / 3, bw = Math.min(54, gw / 3.4);
+    all.forEach((s, i) => {
+      const cx = padL + gw * i + gw / 2;
+      [[s.invest, "var(--accent)", -1], [s.ca, "var(--ochre)", 1]].forEach(([v, c, d]) => {
+        const x = d < 0 ? cx - bw - 3 : cx + 3;
+        svg += `<rect x="${x}" y="${y(Math.max(v, 0))}" width="${bw}" height="${Math.max(0, padT + plotH - y(Math.max(v, 0)))}" fill="${c}" rx="2" opacity="${s.n === state.niv ? 1 : 0.55}"/>`;
+        svg += `<text class="lbl" x="${x + bw / 2}" y="${y(Math.max(v, 0)) - 5}" text-anchor="middle">${short(v)}</text>`;
+      });
+      svg += `<text x="${cx}" y="${H - 8}" text-anchor="middle" style="font-weight:${s.n === state.niv ? 700 : 400};fill:var(${s.n === state.niv ? "--ink" : "--muted"})">R+${s.n} · ROI ${pct(s.roi)}</text>`;
+    });
+    $("chart").innerHTML = svg + "</svg>";
+
+    // Sensibilité
+    const vars = [-0.1, 0, 0.1];
+    $("sens").innerHTML = `<thead><tr><th>Prix ↓ / Coût →</th>${vars.map(c => `<th>${c > 0 ? "+" : ""}${c * 100} %</th>`).join("")}</tr></thead>
+      <tbody>${vars.map(pv => `<tr><th>${pv > 0 ? "+" : ""}${pv * 100} %</th>${vars.map(c => {
+        const s = calc(state, state.niv, { prix: pv, cout: c });
+        const k = s.roi >= 0.25 ? "good" : s.roi >= 0.15 ? "warn" : "bad";
+        return `<td class="${pv === 0 && c === 0 ? "c0" : ""}" style="background:var(--${k}-soft);color:var(--${k})">${pct(s.roi)}</td>`;
+      }).join("")}</tr>`).join("")}</tbody>`;
+
+    window.__last = { r, all };
+  }
+
+  function niceStep(raw) {
+    const p = Math.pow(10, Math.floor(Math.log10(raw || 1))); const f = raw / p;
+    return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p;
+  }
+
+  $("form").addEventListener("input", render);
+  $("form").addEventListener("change", render);
+  $("form").addEventListener("submit", e => e.preventDefault());
+  $("reset").addEventListener("click", () => { state = { ...DEFAULTS }; fillForm(); render(); });
+  $("copy").addEventListener("click", () => {
+    const { r } = window.__last;
+    const txt = [
+      `Bilan promoteur R+${r.n} — terrain ${m2(state.terrain)} à ${money(state.prixTerrain)}/m²`,
+      `Surface couverte ${m2(r.sCouv)} · privative ${m2(r.priv)}`,
+      `Terrain ${money(r.coutTerrain)} · Construction ${money(r.coutConstr)} · Administratif ${money(r.admin)}`,
+      `Investissement total ${money(r.invest)}`,
+      `CA ${money(r.ca)} · Marge ${money(r.marge)} · ROI ${pct(r.roi)} (${pct(r.roiAn)}/an)`,
+      `Rendement locatif brut ${pct(r.rendBrut)} · net ${pct(r.rendNet)}`
+    ].join("\n");
+    const done = m => $("copyMsg").textContent = m;
+    navigator.clipboard.writeText(txt).then(() => done("Résumé copié."), () => done(txt));
+  });
+
+  fillForm();
+  render();
+})();
+</script>
+</body>
+</html>
